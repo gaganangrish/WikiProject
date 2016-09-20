@@ -120,6 +120,26 @@ public abstract class BaseClass {
 		return true;
 	}
 	
+	public static boolean pressRobotEnterKey(int numberofTimes) throws InterruptedException, AWTException {
+		Robot robot = new Robot();
+		for (int i = 0; i < numberofTimes; i++) {
+			robot.keyPress(KeyEvent.VK_ENTER);
+			robot.keyRelease(KeyEvent.VK_ENTER);
+			Thread.sleep(500);
+		}
+		
+		return true;
+	}
+	
+	public static boolean pressRobotCtrlSaveKey() throws AWTException {
+		Robot robot = new Robot();
+		robot.keyPress(KeyEvent.VK_CONTROL);
+		robot.keyPress(KeyEvent.VK_S);
+		robot.keyRelease(KeyEvent.VK_S);
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+		return true;
+	}
+	
 	public static String getCurrentTimeStampInWinFormat() {
 		String timeStamp = null;
 		java.util.Date date= new java.util.Date();
@@ -129,4 +149,5 @@ public abstract class BaseClass {
 		timeStamp = timeStamp.replaceAll("\\.", "-");
 		return timeStamp;
 	}
+	
 }

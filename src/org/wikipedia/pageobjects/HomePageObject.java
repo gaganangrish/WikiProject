@@ -13,6 +13,20 @@ public class HomePageObject extends BaseClass{
 	
 	@FindBy(how = How.XPATH, using = "//li[@id='coll-create_a_book']/a")
 	public WebElement createABookLink;
+
+	@FindBy(how = How.XPATH, using = "//input[@type='search']")
+	public WebElement inputSearchTextBox;
+	
+	@FindBy(how = How.XPATH, using = "//a[@id='coll-add_article']")
+	public WebElement addBookLink;
+	
+	@FindBy(how = How.XPATH, using = "//li[@id='coll-download-as-rdf2latex']/a")
+	public WebElement pdfDownloadLink;
+
+	@FindBy(how = How.XPATH, using = "//a[@title='Click to edit/download/order your book']")
+	public WebElement showBookLink;
+	
+	
 	
 	
 	
