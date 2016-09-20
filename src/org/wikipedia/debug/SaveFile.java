@@ -20,10 +20,13 @@ public class SaveFile extends BaseClass {
 
 	public static void main(String[] args) throws AWTException, InterruptedException {
 		
-		char a = 'E';
+		char a = ':';
 		int charCode = (int)a;
 		int keyCode = KeyEvent.getExtendedKeyCodeForChar(charCode);
 		System.out.println(keyCode);
+		Robot robot = new Robot();
+		robot.keyPress(keyCode);
+		robot.keyRelease(keyCode);
 //		FirefoxProfile fxProfile = new FirefoxProfile();
 //		fxProfile.setPreference("browser.download.folderList", 2);
 //		fxProfile.setPreference("browser.download.manager.showWhenStarting", false);

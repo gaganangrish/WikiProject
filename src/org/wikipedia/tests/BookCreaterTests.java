@@ -60,11 +60,11 @@ public class BookCreaterTests extends BaseClass {
 		
 		pdfDownloadObject.waitForRenderingToBeFinished(driver);
 		waitAndClick(pdfDownloadObject.pdfDownloadLink, 5, driver, "PDF download link");
-		
-		downloadAndSavePdfFile(userDir, "ExportedBook_" + getCurrentTimeStampInWinFormat());
-		boolean isPresent = checkFilePresent(userDir +"\\"+ "ExportedBook_" + getCurrentTimeStampInWinFormat() + ".pdf");
+		String timeStamp = getCurrentTimeStampInWinFormat();
+		downloadAndSavePdfFile(userDir, "ExportedBook_" + timeStamp);
+		boolean isPresent = checkFilePresent(userDir +"\\"+ "ExportedBook_" + timeStamp + ".pdf");
 		Assert.assertTrue(isPresent, "File is not present. Test failed. Expected file name: " + userDir+"\\"
-				+ "ExportedBook_" + getCurrentTimeStampInWinFormat() + ".pdf");
+				+ "ExportedBook_" + timeStamp + ".pdf");
 
 	}
 
