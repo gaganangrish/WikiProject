@@ -18,7 +18,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
-public class BookCreaterTests extends BaseClass{
+public class BookCreaterTests extends BaseClass {
 	static WebDriver driver;
 	HomePageObject homeObject;
 	BookCreaterPageObject bookCreaterObject;
@@ -27,39 +27,46 @@ public class BookCreaterTests extends BaseClass{
 	String userDir = System.getProperty("user.dir");
 
 	@BeforeClass
-	@Parameters({"browserName","url"})
+	@Parameters({ "browserName", "url" })
 	public void beforeClass(String browserName, String url) {
 		driver = browserSetup(browserName);
 		driver.get(url);
 		homeObject = PageFactory.initElements(driver, HomePageObject.class);
 		bookCreaterObject = PageFactory.initElements(driver, BookCreaterPageObject.class);
 		pdfDownloadObject = PageFactory.initElements(driver, PdfDownloadPageObject.class);
-			
-	}
-	
-	
-	@Test
-	public void bookCreaterTest() throws InterruptedException, AWTException {
-	  click(homeObject.createABookLink, "Home page create a book link");
-	  click(bookCreaterObject.startBookCreatorButton, "Start Book Creater button");
-	  enterText(homeObject.inputSearchTextBox, "Selenium");
-	  pressRobotEnterKey(1);
-	  click(homeObject.addBookLink, "Add book link");
-	  enterText(homeObject.inputSearchTextBox, "Jscript");
-	  pressRobotEnterKey(1);
-	  click(homeObject.addBookLink, "Add book link");
-	  homeObject.waitandClickShowBookLink(driver);
-	  enterText(manageBookObject.titleTextField, "Book Creator from Wikipedia");
-	  enterText(manageBookObject.subTitleTextField, "Using Automation");
-	  click(manageBookObject.downloadButton, "Manage pdf page download button");
-	  pdfDownloadObject.waitForRenderingToBeFinished(driver);
-	  click(pdfDownloadObject.pdfDownloadLink, "PDF download link");
-	  downloadAndSavePdfFile(userDir, "ExportedBook_"+getCurrentTimeStampInWinFormat());
-	  boolean isPresent = checkFilePresent(userDir+"ExportedBook_"+getCurrentTimeStampInWinFormat()+".pdf");
-	  Assert.assertTrue(isPresent, "File is not present. Test failed. Expected file name: "+userDir+"ExportedBook_"+getCurrentTimeStampInWinFormat()+".pdf");
-	  
+		manageBookObject = PageFactory.initElements(driver, ManageBookPageObject.class);
+		
+		
+		
 	}
 
+	@Test
+	public void bookCreaterTest() throws InterruptedException, AWTException {
+		waitAndClick(homeObject.createABookLink, 5, driver, "Home page create a book link");
+		waitAndClick(bookCreaterObject.startBookCreatorButton, 5, driver, "Start Book Creater button");
+		
+		enterText(homeObject.inputSearchTextBox, "Selenium");
+		pressRobotEnterKey(1);
+		waitAndClick(homeObject.addBookLink, 5, driver, "Add book link");
+		
+		enterText(homeObject.inputSearchTextBox, "Jscript");
+		pressRobotEnterKey(1);
+		waitAndClick(homeObject.addBookLink, 5, driver, "Add book link");
+		
+		homeObject.waitandClickShowBookLink(driver);
+		enterText(manageBookObject.titleTextField, "Book Creator from Wikipedia");
+		enterText(manageBookObject.subTitleTextField, "Using Automation");
+		waitAndClick(manageBookObject.downloadButton, 5, driver, "Manage pdf page download button");
+		
+		pdfDownloadObject.waitForRenderingToBeFinished(driver);
+		waitAndClick(pdfDownloadObject.pdfDownloadLink, 5, driver, "PDF download link");
+		
+		downloadAndSavePdfFile(userDir, "ExportedBook_" + getCurrentTimeStampInWinFormat());
+		boolean isPresent = checkFilePresent(userDir +"\\"+ "ExportedBook_" + getCurrentTimeStampInWinFormat() + ".pdf");
+		Assert.assertTrue(isPresent, "File is not present. Test failed. Expected file name: " + userDir+"\\"
+				+ "ExportedBook_" + getCurrentTimeStampInWinFormat() + ".pdf");
+
+	}
 
 	@AfterClass
 	public void afterClass() {

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Failed suite [WikipediaBookCreater Suite]">
-  <parameter name="browserName" value="firefox"/>
+  <parameter name="browserName" value="chrome"/>
   <parameter name="url" value="https://en.wikipedia.org/wiki/Main_Page"/>
   <test name="WikipediaBookCreater Test Suite(failed)">
-    <parameter name="browserName" value="firefox"/>
+    <parameter name="browserName" value="chrome"/>
     <parameter name="url" value="https://en.wikipedia.org/wiki/Main_Page"/>
     <classes>
       <class name="tests.BookCreaterTests">
         <methods>
           <include name="beforeClass"/>
+          <include name="afterClass"/>
           <include name="bookCreaterTest"/>
         </methods>
       </class> <!-- tests.BookCreaterTests -->

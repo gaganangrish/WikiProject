@@ -5,13 +5,18 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public abstract class BaseClass {
@@ -23,7 +28,9 @@ public abstract class BaseClass {
 			driver = new FirefoxDriver();			
 		} else if (browserType.contentEquals("chrome")) {
 			System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
-			driver = new ChromeDriver();
+			ChromeOptions options = new ChromeOptions();
+			options.addArguments("--disable-extensions");
+			driver = new ChromeDriver(options);
 		} else if (browserType.contentEquals("ie")) {
 			System.setProperty("webdriver.ie.driver", "IEDriverServer.exe");
 			driver = new InternetExplorerDriver();
@@ -32,7 +39,6 @@ public abstract class BaseClass {
 		}
 
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		return driver;
 	}
 	
@@ -44,7 +50,7 @@ public abstract class BaseClass {
 		}
 	}
 	
-	public boolean enterText(WebElement myElement, String textToEnter) {
+	public boolean enterText(WebElement myElement, String textToEnter) throws InterruptedException {
 		boolean isDisplayed = false;
 		try {
 			isDisplayed = myElement.isDisplayed();
@@ -55,6 +61,7 @@ public abstract class BaseClass {
 			myElement.clear();
 			myElement.sendKeys(textToEnter);	
 		}
+		Thread.sleep(500);
 		return true;
 	}
 	
@@ -90,7 +97,23 @@ public abstract class BaseClass {
 				robot.keyPress(KeyEvent.VK_SEMICOLON);
 				robot.keyRelease(KeyEvent.VK_SHIFT);
 				robot.keyRelease(KeyEvent.VK_SEMICOLON);
-			}else {
+			}else if (Character.toString(charArr[i]).equalsIgnoreCase("_")) {
+				robot.keyPress(KeyEvent.VK_SHIFT);
+				robot.keyPress(KeyEvent.VK_MINUS);
+				robot.keyRelease(KeyEvent.VK_SHIFT);
+				robot.keyRelease(KeyEvent.VK_MINUS);
+			}else if (Character.toString(charArr[i]).equalsIgnoreCase("E")) {
+				robot.keyPress(KeyEvent.VK_SHIFT);
+				robot.keyPress(KeyEvent.VK_E);
+				robot.keyRelease(KeyEvent.VK_SHIFT);
+				robot.keyRelease(KeyEvent.VK_E);
+			}else if (Character.toString(charArr[i]).equalsIgnoreCase("B")) {
+				robot.keyPress(KeyEvent.VK_SHIFT);
+				robot.keyPress(KeyEvent.VK_B);
+				robot.keyRelease(KeyEvent.VK_SHIFT);
+				robot.keyRelease(KeyEvent.VK_B);
+			}
+			else {
 				int charCode = (int)charArr[i];
 				int keyCode = KeyEvent.getExtendedKeyCodeForChar(charCode);
 //				System.out.println("++++++++++++++++++++++++++++++++++++++++++++");
@@ -122,6 +145,7 @@ public abstract class BaseClass {
 	
 	public static boolean pressRobotEnterKey(int numberofTimes) throws InterruptedException, AWTException {
 		Robot robot = new Robot();
+		Thread.sleep(1000);
 		for (int i = 0; i < numberofTimes; i++) {
 			robot.keyPress(KeyEvent.VK_ENTER);
 			robot.keyRelease(KeyEvent.VK_ENTER);
@@ -131,12 +155,13 @@ public abstract class BaseClass {
 		return true;
 	}
 	
-	public static boolean pressRobotCtrlSaveKey() throws AWTException {
+	public static boolean pressRobotCtrlSaveKey() throws AWTException, InterruptedException {
 		Robot robot = new Robot();
 		robot.keyPress(KeyEvent.VK_CONTROL);
 		robot.keyPress(KeyEvent.VK_S);
 		robot.keyRelease(KeyEvent.VK_S);
 		robot.keyRelease(KeyEvent.VK_CONTROL);
+		Thread.sleep(1000);
 		return true;
 	}
 	
@@ -162,5 +187,64 @@ public abstract class BaseClass {
 		  pressRobotEnterKey(1);
 		
 		return true;
+	}
+	
+	public boolean waitAndClick(WebElement ele, int timeout, WebDriver driver, String elementName){
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, timeout);
+			WebElement element = wait.until(ExpectedConditions.visibilityOf(ele));
+			element = wait.until(ExpectedConditions.elementToBeClickable(ele));
+			click(element, elementName);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+	
+	public boolean waitForElementToBeDisplayed(WebElement ele, int timeout, WebDriver driver){
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, timeout);
+			WebElement element = wait.until(ExpectedConditions.visibilityOf(ele));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+	
+	public boolean waitForElementToBeEnabled(WebElement ele, int timeout, WebDriver driver){
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, timeout);
+			WebElement element = wait.until(ExpectedConditions.elementToBeClickable(ele));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+	
+	public boolean waitForElementToBeNOTDisplayed(WebElement ele, int timeout, WebDriver driver){
+		try {
+			List<WebElement> elements = Arrays.asList(ele);
+			WebDriverWait wait = new WebDriverWait(driver, timeout);
+			Boolean isNotDisplayed = wait.until(ExpectedConditions.invisibilityOfAllElements(elements));
+			return isNotDisplayed;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+	
+	public void waitForPageLoad(WebDriver driver) {
+		WebDriverWait wait = new WebDriverWait(driver, 30); wait.until(ExpectedConditions.jsReturnsValue("return document.readyState==\"complete\";"));
 	}
 }
