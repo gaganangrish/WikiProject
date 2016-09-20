@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.testng.Assert;
 
 import baseclass.BaseClass;
 
@@ -30,7 +31,21 @@ public class HomePageObject extends BaseClass{
 	
 	
 	
-	public static boolean userAction1() {
+	public boolean waitandClickShowBookLink(WebDriver driver) throws InterruptedException {
+		int count = 0;
+		boolean isReady = false;
+		do {
+			Thread.sleep(500);
+			count++;
+			if (showBookLink.getText().contains("Show book (2 pages)")) {
+				isReady = true;
+			}
+		} while (!isReady&& count <180);
+		if (isReady) {
+			click(showBookLink, "Show book (2 pages) link");
+		} else {
+			Assert.fail("Show book link not ready even after waiting for 3 mins");
+		}
 		return true;
 	}
 }

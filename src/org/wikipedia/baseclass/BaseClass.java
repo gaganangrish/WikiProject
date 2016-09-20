@@ -150,4 +150,17 @@ public abstract class BaseClass {
 		return timeStamp;
 	}
 	
+	public boolean downloadAndSavePdfFile(String filePath, String fileName) throws AWTException, InterruptedException {
+		  Thread.sleep(10000);
+		  pressRobotCtrlSaveKey();
+		  pressRobotTabKey(5);
+		  pressRobotEnterKey(1);
+		  typeRobotKeyCode(filePath);
+		  pressRobotEnterKey(1);
+		  pressRobotTabKey(6);
+		  typeRobotKeyCode(fileName);
+		  pressRobotEnterKey(1);
+		
+		return true;
+	}
 }
