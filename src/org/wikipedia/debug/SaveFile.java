@@ -3,6 +3,11 @@ package debug;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -20,13 +25,43 @@ public class SaveFile extends BaseClass {
 
 	public static void main(String[] args) throws AWTException, InterruptedException {
 		
-		char a = ':';
-		int charCode = (int)a;
-		int keyCode = KeyEvent.getExtendedKeyCodeForChar(charCode);
-		System.out.println(keyCode);
-		Robot robot = new Robot();
-		robot.keyPress(keyCode);
-		robot.keyRelease(keyCode);
+//		char a = ':';
+//		int charCode = (int)a;
+//		int keyCode = KeyEvent.getExtendedKeyCodeForChar(charCode);
+//		System.out.println(keyCode);
+//		Robot robot = new Robot();
+//		robot.keyPress(keyCode);
+//		robot.keyRelease(keyCode);
+//		
+		
+		
+		    boolean success = true;
+		    try (DirectoryStream<Path> newDirectoryStream = Files.newDirectoryStream(Paths.get(System.getProperty("user.dir")), ".pdf" + "*")) {
+		        for (final Path newDirectoryStreamItem : newDirectoryStream) {
+		            Files.delete(newDirectoryStreamItem);
+		        }
+		    } catch (final Exception e) {
+		        success = false;
+		        e.printStackTrace();
+		    }
+		
+		//		try{
+//
+//    		File file = new File(System.getProperty("user.dir")+"\\"+"*\\.pdf");
+//
+//    		if(file.delete()){
+//    			System.out.println(file.getName() + " is deleted!");
+//    		}else{
+//    			System.out.println("Delete operation is failed.");
+//    		}
+//
+//    	}catch(Exception e){
+//
+//    		e.printStackTrace();
+//
+//    	}
+		
+		
 //		FirefoxProfile fxProfile = new FirefoxProfile();
 //		fxProfile.setPreference("browser.download.folderList", 2);
 //		fxProfile.setPreference("browser.download.manager.showWhenStarting", false);
