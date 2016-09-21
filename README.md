@@ -4,11 +4,11 @@
 This project is done as part of the Test Automation assignment of QA Engineer job application at Crossover. Assigned TCM is automated as part of this assignment.
 
 ## Technolgies used
-###Automation Tool###: Selenium Webdriver
-###Programming language###: Java
-###Framework###: TestNG using Page Object Model
-###Libs/JARs used###: Selenium 2.53.1, TestNG 6.9.9, Java JDK 1.8.0_101
-###IDE used###: Eclips
+* Automation Tool: Selenium Webdriver
+* Programming language: Java
+* Framework: TestNG using Page Object Model
+* Libs/JARs used: Selenium 2.53.1, TestNG 6.9.9, Java JDK 1.8.0_101
+* IDE used: Eclips
 
 ##Instalation Process##
 Unzip the zip file and import the project in Eclips
